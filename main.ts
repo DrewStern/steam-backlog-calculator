@@ -17,10 +17,7 @@ function find_all_games(game_names: string[]): Promise<HowLongToBeatEntry[]> {
         promises.push(find_game(game_name)
             .then(matches => {
                 if (matches.length > 0) {
-                    // console.log("matches = " + matches);
-                    console.log(matches[0]);
                     let best_match: HowLongToBeatEntry = matches.sort(compare_by_similarity).filter(match => match.name.startsWith(game_name))[0];
-                    // console.log("best_match = " + best_match);
                     if (!!best_match) {
                         games.push(best_match);
                     }

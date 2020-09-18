@@ -1,0 +1,37 @@
+{
+  "name": "steam-backlog-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "ajv": "^6.12.3",
+    "bcrypt-pbkdf": "^1.0.2",
+    "fast-levenshtein": "^2.0.6",
+    "har-validator": "^5.1.5",
+    "howlongtobeat": "^1.2.1",
+    "http-signature": "^1.2.0",
+    "jsprim": "^1.4.1",
+    "readable-stream": "^3.6.0",
+    "request": "^2.88.2",
+    "sshpk": "^1.16.1",
+    "tweetnacl": "^0.14.5",
+    "uri-js": "^4.2.2",
+    "util-deprecate": "^1.0.2",
+    "uuid": "^3.4.0",
+    "verror": "^1.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrewStern/steam-backlog-calculator.git"
+  },
+  "author": "Drew Stern",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DrewStern/steam-backlog-calculator/issues"
+  },
+  "homepage": "https://github.com/DrewStern/steam-backlog-calculator#readme"
+}

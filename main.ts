@@ -7,7 +7,7 @@ let LIBARY_DETAILS_CSV = "library_details.csv";
 let LIBARY_SUMMARY_TXT = "library_summary.txt";
 
 find_all_games(get_game_names())
-.then(games => write_results(games))
+.then(games => write_library_details(games))
 .catch(error => console.log(error));
 
 function find_all_games(game_names: string[]): Promise<HowLongToBeatEntry[]> {
@@ -39,35 +39,19 @@ function get_game_names(): string[] {
     return fs.readFileSync(GAME_LIBRARY_TXT, 'utf8').split(NEWLINE);
 }
 
-function write_results(games: Array<HowLongToBeatEntry>) {
-    write_library_details(games);
-
-    let gameplayTiers = ["gameplayMain"/*, "gameplayMainExtra", "gameplayCompletionist"*/];
-    for (let gameplayTier of gameplayTiers) {
-        write_library_playtime(games, gameplayTier);
-        write_by_playtime(games, gameplayTier);
-    }
-}
-
 function write_library_details(games: Array<HowLongToBeatEntry>) {
     let message = 
         "NAME,CASUAL_PLAYTIME,NORMAL_PLAYTIME,COMPLETE_PLAYTIME" + NEWLINE +
         games.sort(compare_by_name).map(x => map_game_data_to_csv_format(x)).join(NEWLINE);
-    appendFile(LIBARY_DETAILS_CSV, message);
+    writeFile(LIBARY_DETAILS_CSV, message);
+
+    let footer = NEWLINE +
+        "TOTAL," + sum_playtime(games, "gameplayMain") + "," + sum_playtime(games, "gameplayMainExtra") + "," +  sum_playtime(games, "gameplayCompletionist");
+    appendFile(LIBARY_DETAILS_CSV, footer);
 }
 
-function write_by_playtime(games: Array<HowLongToBeatEntry>, gameplayTier: string) {
-    let message = 
-        "Shortest to Longest games (@ '" + gameplayTier + "' tier): " + NEWLINE + 
-        games.sort(compare_by_playtime).map(x => x.name + " (" + x[gameplayTier] + ")" + NEWLINE);
-    appendFile(LIBARY_SUMMARY_TXT, message);
-}
-
-function write_library_playtime(games: Array<HowLongToBeatEntry>, gameplayTier: string) {
-    let playtime_accumulator = (accumulator, current_game: HowLongToBeatEntry) => accumulator + current_game[gameplayTier];
-    let total_playtime = games.reduce(playtime_accumulator, 0);
-    let message = "Total Playtime (@ '" + gameplayTier + "' tier): " + total_playtime + NEWLINE;
-    appendFile(LIBARY_SUMMARY_TXT, message);
+function writeFile(file_name: string, message: string) {
+    fs.writeFile(file_name, message, () => {});
 }
 
 function appendFile(file_name: string, message: string) {
@@ -86,6 +70,7 @@ function compare_by_similarity(game1: HowLongToBeatEntry, game2: HowLongToBeatEn
     return game2.similarity - game1.similarity;
 }
 
-function compare_by_playtime(game1: HowLongToBeatEntry, game2: HowLongToBeatEntry): number {
-    return game1.gameplayMain - game2.gameplayMain;
+function sum_playtime(games: Array<HowLongToBeatEntry>, gameplayTier: string): number {
+    let playtime_accumulator = (accumulator, current_game: HowLongToBeatEntry) => accumulator + current_game[gameplayTier];
+    return games.reduce(playtime_accumulator, 0);
 }

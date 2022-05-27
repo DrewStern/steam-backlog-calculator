@@ -1,10 +1,10 @@
 import { HowLongToBeatService, HowLongToBeatEntry } from 'howlongtobeat';
 import * as fs from 'fs';
 
-let NEWLINE = "\r\n";
-let GAME_LIBRARY_TXT = 'game_library.txt';
-let LIBARY_DETAILS_CSV = "library_details.csv";
-let LIBARY_SUMMARY_TXT = "library_summary.txt";
+const NEWLINE = "\r\n";
+const GAME_LIBRARY_TXT = 'game_library.txt';
+const LIBRARY_DETAILS_CSV = "library_details.csv";
+const LIBRARY_SUMMARY_TXT = "library_summary.txt";
 
 find_all_games(get_game_names())
 .then(games => write_library_details(games))

@@ -1,6 +1,7 @@
 import { HowLongToBeatService, HowLongToBeatEntry } from 'howlongtobeat';
 import * as fs from 'fs';
 
+const hltbService = new HowLongToBeatService();
 const NEWLINE = "\r\n";
 const GAME_LIBRARY_TXT = 'game_library.txt';
 const LIBRARY_DETAILS_CSV = "library_details.csv";
@@ -32,7 +33,7 @@ function find_all_games(game_names: string[]): Promise<HowLongToBeatEntry[]> {
 }
 
 function find_game(game_name: string): Promise<HowLongToBeatEntry> {
-    return (new HowLongToBeatService()).search(game_name);
+    return hltbService.search(game_name);
 }
 
 function get_game_names(): string[] {

@@ -22,7 +22,9 @@ function find_all_games(game_names: string[]): Promise<HowLongToBeatEntry[]> {
                     if (!!best_match) {
                         games.push(best_match);
                     }
-                }
+                } else {
+		    console.log("No match found for " + game_name);
+		}
             })
             .catch(error => 
                 console.log(error)
